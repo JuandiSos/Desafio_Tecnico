@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "eea6c085-e69c-43f3-a38c-85ba7821ae85",
+		"name": "Albums jsonplaceholder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Albums",
+			"item": [
+				{
+					"name": "See albums",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Sizes of albums\", function () {\r",
+									"    pm.expect(response.length).to.eql(100);\r",
+									"});\r",
+									"pm.test(\"Validate the value fields\", function () {\r",
+									"    for(let i = 0; i < response.length; i++){\r",
+									"        pm.expect(response[i]).to.be.an(\"object\");\r",
+									"        pm.expect(response[i].userId).to.be.a(\"number\");\r",
+									"        pm.expect(response[i].id).to.be.an(\"number\");\r",
+									"        pm.expect(response[i].title).to.be.a(\"string\");\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/albums",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"albums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See album for one user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Validate the userId is 1, for all records\", function () {\r",
+									"    for(let i = 0; i < response.length; i++){\r",
+									"        pm.expect(response[i]).to.be.an(\"object\");\r",
+									"        pm.expect(response[i].userId).to.be.a(\"number\");\r",
+									"        pm.expect(response[i].userId).to.eql(1);\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/albums?userId=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"albums"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See album for userid = 1 and id = 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Validate the title for userid= 1 and id = 1\", function () {\r",
+									"    pm.expect(response[0]).to.be.an(\"object\");\r",
+									"    pm.expect(response[0].userId).to.be.a(\"number\");\r",
+									"    pm.expect(response[0].id).to.be.a(\"number\");\r",
+									"    pm.expect(response[0].title).to.eql(\"quidem molestiae enim\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/albums?userId=1&id=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"albums"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								},
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "idTestDate",
+			"value": "idTestDate"
+		}
+	]
+}

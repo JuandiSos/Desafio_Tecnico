@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "383692db-5482-499a-8951-0774e5b0190b",
+		"name": "Users jsonplaceholder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Get users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Sizes of users equals to 10\", function () {\r",
+									"    pm.expect(response.length).to.eql(10);\r",
+									"});\r",
+									"pm.test(\"Validate the value fields\", function () {\r",
+									"    for(let i = 0; i < response.length; i++){\r",
+									"        pm.expect(response[i]).to.be.an(\"object\");\r",
+									"        pm.expect(response[i].name).to.be.a(\"string\");\r",
+									"        pm.expect(response[i].company).to.be.an(\"object\");\r",
+									"        pm.expect(response[i].website).to.be.a(\"string\");\r",
+									"        pm.expect(response[i].email).not.to.be.null;\r",
+									"        pm.expect(response[i].phone).not.to.be.null;\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate correct email\", () => {\r",
+									"    for(let i = 0; i < response.length; i++){\r",
+									"        //validateEmail (response[i].email).\r",
+									"        pm.expect(validateEmail (response[i].email)).to.be.true;\r",
+									"        console.log(response[i].email);\r",
+									"        };\r",
+									"        \r",
+									"});\r",
+									"\r",
+									"function validateEmail(email) {\r",
+									"  var re = /^(([^<>()[\\]\\\\.,;:\\s@\\\"]+(\\.[^<>()[\\]\\\\.,;:\\s@\\\"]+)*)|(\\\".+\\\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;\r",
+									"  return re.test(email);\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See user validate from csv",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json()\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Matching info between csv and postmam\", () => {\r",
+									"  pm.expect(response[0].name).to.eql(data.name);\r",
+									"  pm.expect(response[0].username).to.eql(data.username);\r",
+									"  pm.expect(response[0].email).to.eql(data.email);\r",
+									"  pm.expect(response[0].website).to.eql(data.website);\r",
+									"  pm.expect(response[0].phone).to.eql(data.phone);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"id that will be sent: \" + data.id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users?id={{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

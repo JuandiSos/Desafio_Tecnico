@@ -1,0 +1,339 @@
+{
+	"info": {
+		"_postman_id": "226358db-f60a-457e-afea-631a2c6ccb70",
+		"name": "Post jsonplaceholder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Create posts",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json()\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Validate title, body, userId\", () => {\r",
+									"  pm.expect(response.title).to.eql(\"No sleep\");\r",
+									"  pm.expect(response.body).to.eql(\"Trinix\");\r",
+									"  pm.expect(response.userId).to.eql(11);\r",
+									"  });\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"title\": \"No sleep\",\r\n    \"body\": \"Trinix\",\r\n    \"userId\": 11\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See all posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Sizes of posts\", function () {\r",
+									"    pm.expect(response.length).to.eql(100);\r",
+									"});\r",
+									"pm.test(\"Validate the value fields\", function () {\r",
+									"    for(let i = 0; i < response.length; i++){\r",
+									"        pm.expect(response[i]).to.be.an(\"object\");\r",
+									"        pm.expect(response[i].userId).to.be.a(\"number\");\r",
+									"        pm.expect(response[i].id).to.be.an(\"number\");\r",
+									"        pm.expect(response[i].title).to.be.a(\"string\");\r",
+									"        pm.expect(response[i].body).to.be.a(\"string\");\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update posts",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('postId',100)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json()\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Validate the value fields\", function () {\r",
+									"    for(let i = 0; i < response.length; i++){\r",
+									"        pm.expect(response[i]).to.be.an(\"object\");\r",
+									"        pm.expect(response[i].userId).to.be.a(\"number\");\r",
+									"        pm.expect(response[i].id).to.be.an(\"number\");\r",
+									"        pm.expect(response[i].title).to.be.a(\"string\");\r",
+									"        pm.expect(response[i].body).to.be.a(\"string\");\r",
+									"    }\r",
+									"});\r",
+									"pm.test(\"Validate title, body, userId\", () => {\r",
+									"  pm.expect(response.title).to.eql(\"Juandi\");\r",
+									"  pm.expect(response.body).to.eql(\"Qa\");\r",
+									"  pm.expect(response.id).to.eql(100);\r",
+									"  });\r",
+									"pm.test(\"Validate changes\", () => {\r",
+									"  pm.expect(response.title).not.to.eql(\"at nam consequatur ea labore ea harum\");\r",
+									"  pm.expect(response.body).not.to.eql(\"cupiditate quo est a modi nesciunt soluta\\nipsa voluptas error itaque dicta in\\nautem qui minus magnam et distinctio eum\\naccusamus ratione error aut\");\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Juandi\",\r\n    \"body\": \"Qa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/{{postId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"{{postId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH posts error 500",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('postId',101)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Juandi\",\r\n    \"body\": \"Qa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/posts/{{postId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"{{postId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE posts",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('postId',100)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"11\",\r\n    \"id\":\"101\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/posts/'{{postId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"'{{postId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE posts error 404",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('postId',101)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"11\",\r\n    \"id\":\"101\"\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/posts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "{{postId}}",
+			"value": "{{postId}}"
+		}
+	]
+}
